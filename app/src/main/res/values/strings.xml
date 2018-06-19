@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Watermark Remover</string>
+    <string name="permission_rationale">This App requires WRITE_PERMISSION to read and modify PDFs.</string>
 </resources>
