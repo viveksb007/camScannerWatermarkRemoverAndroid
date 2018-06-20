@@ -4,8 +4,10 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.Handler;
@@ -15,6 +17,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -168,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 if (srcFilePaths.size() == 0)
                     Toast.makeText(this, "No PDF selected.", Toast.LENGTH_SHORT).show();
                 else {
-                    Toast.makeText(this, "Processing " + srcFilePaths.size() + " PDFs", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "Processing " + srcFilePaths.size() + " PDFs", Toast.LENGTH_SHORT).show();
                     // Process PDFs
                     alertDialog = new SpotsDialog.Builder()
                             .setContext(context)
@@ -262,7 +266,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     ArrayList<String> filePaths = new ArrayList<>(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
                     for (String path : filePaths) {
-                        if (!srcFilePaths.contains(path))
+                        if (!srcFilePaths.contains(path) && path.endsWith(".pdf"))
                             srcFilePaths.add(path);
                     }
                     adapter.notifyDataSetChanged();
@@ -270,4 +274,61 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 break;
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_rate_app:
+                Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                Intent marketIntent = new Intent(Intent.ACTION_VIEW, uri);
+                marketIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+                        Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+                try {
+                    startActivity(marketIntent);
+                } catch (ActivityNotFoundException e) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                }
+                break;
+            case R.id.menu_share:
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this app to remove watermark from CamScanner Docs : " + "https://play.google.com/store/apps/details?id=" + getPackageName());
+                shareIntent.setType("text/plain");
+                startActivity(shareIntent);
+                break;
+            case R.id.menu_feedback:
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "vbplayapps@gmail.com", null));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback for Watermark Remover App");
+                emailIntent.putExtra(Intent.EXTRA_TEXT, "");
+                startActivity(Intent.createChooser(emailIntent, "Send Feedback.."));
+                break;
+            case R.id.menu_instructions:
+                new MaterialDialog.Builder(context)
+                        .title("Instructions")
+                        .content("")
+                        .positiveText("Okay")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .build()
+                        .show();
+                break;
+            case R.id.menu_view_pdfs:
+                Intent viewPdfsIntent = new Intent(MainActivity.this, ListPDFsActivity.class);
+                startActivity(viewPdfsIntent);
+                break;
+        }
+        return true;
+    }
+
 }
