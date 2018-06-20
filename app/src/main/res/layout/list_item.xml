@@ -2,22 +2,23 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="3dp">
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/ic_picture_as_pdf_black_24dp"
-        android:contentDescription="PDF Logo" />
+        android:layout_centerInParent="true"
+        android:contentDescription="PDF Logo"
+        android:src="@drawable/ic_picture_as_pdf_black_24dp" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_pdf_name"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/imageView"
         android:gravity="center_vertical"

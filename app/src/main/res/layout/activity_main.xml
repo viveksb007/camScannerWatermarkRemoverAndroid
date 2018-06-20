@@ -9,17 +9,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <ListView
             android:id="@+id/lv_files"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:dividerHeight="2dp" />
 
         <Button
             android:id="@+id/btn_modify_pdf"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="5dp"
             android:text="Modify PDF" />
     </LinearLayout>
 
@@ -27,8 +31,8 @@
         android:id="@+id/fab_add_file"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:layout_gravity="bottom|end"
+        android:layout_margin="10dp"
         android:src="@drawable/ic_add_black_24dp" />
 
 </FrameLayout>
