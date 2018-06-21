@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private static final String DEST = Environment.getExternalStorageDirectory().getAbsolutePath() + "/result.pdf";
     private static final String BASE_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/documents/WatermarkRemover";
 
-
+    boolean doubleBackToExitPressedOnce = false;
     private static final int REQUEST_DOC = 1024;
     private static final int REQUEST_WRITE_PERMISSION = 100;
     String[] perms = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -142,6 +142,22 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     }
 
     @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, getString(R.string.press_back_again), Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
@@ -198,27 +214,35 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                                 @Override
                                 public void run() {
                                     alertDialog.dismiss();
+                                    new MaterialDialog.Builder(context)
+                                            .title("Files processed")
+                                            .content(getString(R.string.processed_prompt))
+                                            .positiveText("Yes")
+                                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                    srcFilePaths.clear();
+                                                    adapter.notifyDataSetChanged();
+                                                    Intent viewPdfsIntent = new Intent(MainActivity.this, ListPDFsActivity.class);
+                                                    startActivity(viewPdfsIntent);
+                                                }
+                                            })
+                                            .negativeText("No")
+                                            .onNegative(new MaterialDialog.SingleButtonCallback() {
+                                                @Override
+                                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                                    srcFilePaths.clear();
+                                                    adapter.notifyDataSetChanged();
+                                                    dialog.dismiss();
+                                                }
+                                            })
+                                            .build()
+                                            .show();
                                 }
                             });
                         }
                     };
                     thread.start();
-
-                    /*
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            alertDialog.dismiss();
-                        }
-                    }, 5000);
-
-
-                    try {
-                        modifyPDF(SRC, DEST);
-                    } catch (IOException | DocumentException e) {
-                        e.printStackTrace();
-                    }
-                    */
                 }
                 break;
             case R.id.fab_add_file:
@@ -312,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
             case R.id.menu_instructions:
                 new MaterialDialog.Builder(context)
                         .title("Instructions")
-                        .content("")
+                        .customView(R.layout.instruction_dialog, true)
                         .positiveText("Okay")
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override

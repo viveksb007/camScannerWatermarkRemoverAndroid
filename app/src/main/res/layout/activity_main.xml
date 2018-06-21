@@ -24,7 +24,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="5dp"
-            android:text="Modify PDF" />
+            android:background="@drawable/round_corner"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="Modify PDF"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
