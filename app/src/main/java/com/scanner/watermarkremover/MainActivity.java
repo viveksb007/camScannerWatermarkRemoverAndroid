@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     private boolean hasWritePermission = false;
     private Context context;
     private AlertDialog alertDialog;
+    private LinearLayout linearLayout;
+    private LinearLayout tempLL;
 
     private final Object lock = new Object();
 
@@ -74,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         context = this;
+        linearLayout = findViewById(R.id.container);
+        linearLayout.setVisibility(View.INVISIBLE);
+        tempLL = findViewById(R.id.temp_container);
         fileListView = findViewById(R.id.lv_files);
         adapter = new PdfFileAdapter(srcFilePaths, this);
         fileListView.setAdapter(adapter);
@@ -223,6 +229,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                                     srcFilePaths.clear();
                                                     adapter.notifyDataSetChanged();
+                                                    maintainFrontScreen(true);
                                                     Intent viewPdfsIntent = new Intent(MainActivity.this, ListPDFsActivity.class);
                                                     startActivity(viewPdfsIntent);
                                                 }
@@ -233,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                                     srcFilePaths.clear();
                                                     adapter.notifyDataSetChanged();
+                                                    maintainFrontScreen(true);
                                                     dialog.dismiss();
                                                 }
                                             })
@@ -293,9 +301,20 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                         if (!srcFilePaths.contains(path) && path.endsWith(".pdf"))
                             srcFilePaths.add(path);
                     }
+                    maintainFrontScreen(false);
                     adapter.notifyDataSetChanged();
                 }
                 break;
+        }
+    }
+
+    private void maintainFrontScreen(boolean beginning) {
+        if (!beginning) {
+            linearLayout.setVisibility(View.VISIBLE);
+            tempLL.setVisibility(View.GONE);
+        } else {
+            linearLayout.setVisibility(View.INVISIBLE);
+            tempLL.setVisibility(View.VISIBLE);
         }
     }
 

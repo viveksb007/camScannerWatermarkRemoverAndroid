@@ -7,6 +7,7 @@
     tools:context=".MainActivity">
 
     <LinearLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -29,6 +30,30 @@
             android:paddingRight="20dp"
             android:text="Modify PDF"
             android:textColor="@android:color/white" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/temp_container"
+        android:padding="10dp">
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:contentDescription="PDF Image"
+            android:src="@drawable/pdf_image" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_prompt"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton

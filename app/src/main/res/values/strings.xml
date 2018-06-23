@@ -9,4 +9,5 @@
     <string name="press_back_again">Press BACK again to exit</string>
     <string name="instructions_desc">1. Press <b>+</b> button to add PDF files whose watermark you want to remove.\n2. After adding PDF files, press <b>Modify PDF</b> button to remove CamScanner watermark from PDFs.\n\n<b>Note: All the PDFs are stored in <u>documents/WatermarkRemover</u> folder.</b></string>
     <string name="processed_prompt">Do you want to view processed files?\n<b>Note: All files are stored in documents/WatermarkRemover</b></string>
+    <string name="main_prompt">Press + button to add PDF files</string>
 </resources>
