@@ -207,7 +207,15 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                         public void run() {
                             for (int i = 0; i < srcFilePaths.size(); i++) {
                                 String path = srcFilePaths.get(i);
-                                new ModifyPdf(path, BASE_PATH + "/" + path.substring(path.lastIndexOf('/') + 1)).execute();
+                                String dest = BASE_PATH + "/" + path.substring(path.lastIndexOf('/') + 1);
+                                if (dest.equals(path)) {
+                                    // handling case when src and dest files are same
+                                    dest = dest.substring(0, dest.indexOf('.') - 1)
+                                            + "_1"
+                                            + dest.substring(dest.indexOf('.'));
+                                    Log.v(TAG, dest);
+                                }
+                                new ModifyPdf(path, dest).execute();
                                 synchronized (lock) {
                                     try {
                                         lock.wait();
@@ -298,10 +306,12 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 if (resultCode == Activity.RESULT_OK && data != null) {
                     ArrayList<String> filePaths = new ArrayList<>(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_DOCS));
                     for (String path : filePaths) {
-                        if (!srcFilePaths.contains(path) && path.endsWith(".pdf"))
+                        if (!srcFilePaths.contains(path) && path.endsWith(".pdf")) {
                             srcFilePaths.add(path);
+                        }
                     }
-                    maintainFrontScreen(false);
+                    if (srcFilePaths.size() > 0)
+                        maintainFrontScreen(false);
                     adapter.notifyDataSetChanged();
                 }
                 break;
