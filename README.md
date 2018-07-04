@@ -24,3 +24,4 @@ This is an Android App that removes Watermark from PDFs which are scanned by [Ca
 ## [Video Demo of App]()
 
 ## License
+This software is licensed under [MIT license](https://github.com/viveksb007/camScannerWatermarkRemoverAndroid/blob/master/LICENSE).
