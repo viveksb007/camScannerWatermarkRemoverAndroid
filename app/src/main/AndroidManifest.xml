@@ -20,7 +20,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListPDFsActivity" />
+        <activity
+            android:name=".ListPDFsActivity"
+            android:label="@string/modified_pdfs" />
     </application>
 
 </manifest>
