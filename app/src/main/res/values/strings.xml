@@ -2,7 +2,7 @@
     <string name="app_name">Watermark Remover</string>
     <string name="permission_rationale">This App requires WRITE_PERMISSION to read and modify PDFs.</string>
     <string name="share">Share</string>
-    <string name="rate_app">Rate App</string>
+    <string name="other_app">Other Apps</string>
     <string name="feedback">Feedback</string>
     <string name="view_modified_pdfs">View modified PDFs</string>
     <string name="instructions">Instructions</string>

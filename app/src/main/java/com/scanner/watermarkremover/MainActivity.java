@@ -338,7 +338,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_rate_app:
-                Uri uri = Uri.parse("market://details?id=" + getPackageName());
+                Uri uri = Uri.parse("market://developer?id=VB+Applications");
                 Intent marketIntent = new Intent(Intent.ACTION_VIEW, uri);
                 marketIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
                         Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
@@ -346,7 +346,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                     startActivity(marketIntent);
                 } catch (ActivityNotFoundException e) {
                     startActivity(new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                            Uri.parse("https://play.google.com/store/apps/developer?id=VB+Applications")));
                 }
                 break;
             case R.id.menu_share:

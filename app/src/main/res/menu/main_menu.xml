@@ -20,7 +20,7 @@
 
     <item
         android:id="@+id/menu_rate_app"
-        android:title="@string/rate_app" />
+        android:title="@string/other_app" />
 
     <item
         android:id="@+id/menu_feedback"
