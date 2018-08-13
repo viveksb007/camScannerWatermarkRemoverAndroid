@@ -349,6 +349,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                             Uri.parse("https://play.google.com/store/apps/developer?id=VB+Applications")));
                 }
                 break;
+                /*
             case R.id.menu_share:
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
@@ -356,6 +357,7 @@ public class MainActivity extends AppCompatActivity implements EasyPermissions.P
                 shareIntent.setType("text/plain");
                 startActivity(shareIntent);
                 break;
+                */
             case R.id.menu_feedback:
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "vbplayapps@gmail.com", null));
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Feedback for Watermark Remover App");
